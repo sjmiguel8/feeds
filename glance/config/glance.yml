@@ -13,8 +13,9 @@ pages:
     columns:
       - size: small
         widgets:
-          - type: calendar
-            first-day-of-week: monday
+          - type: videos
+            channels:
+              - UCH8688NYs4zdEALBE6-LUhQ
       - size: full
         widgets:
           - type: group
@@ -25,7 +26,6 @@ pages:
                 search-url: https://www.google.com/search?q={searchTerms}
                 show-search-button: true
                 show-search-box: true
-
           - type: group
             widgets:
               - type: reddit
@@ -40,18 +40,17 @@ pages:
               - type: reddit
                 subreddit: ImTheMainCharacter
                 show-thumbnails: true
-
+              
           - type: group
             widgets:
-              - type: rss   
-                title: rss 
-                feeds:
-                  - name: ActualPublicFreakouts
-                    url: https://www.reddit.com/r/ActualPublicFreakouts/.rss
-                  - name: PublicFreakout
+              - type: rss
+                title: RSS Feed
+                feeds: 
+                  - name: Reddit
                     url: https://www.reddit.com/r/PublicFreakout/.rss
-                  - name: Whatcouldgowrong
+                  - name: Reddit
+                    url: https://www.reddit.com/r/ActualPublicFreakouts/.rss
+                  - name: Reddit
                     url: https://www.reddit.com/r/Whatcouldgowrong/.rss
-                  - name: ImTheMainCharacter
+                  - name: Reddit
                     url: https://www.reddit.com/r/ImTheMainCharacter/.rss
-      
