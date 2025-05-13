@@ -16,8 +16,19 @@ pages:
           - type: videos
             channels:
               - UCH8688NYs4zdEALBE6-LUhQ
-            style: horizontal-cards
-            limit: 20  # Increase or decrease as needed
+              - UCUwBr3DpMT3WhaGuHnJcakQ
+              - UCYAu4BumzvauT_zA_rMa0Qw
+              - UCe1IA5kmY578O_Qo7Skr-TQ
+              - UC7s1onGtoO5YHFPHRK63CIg
+              - UCD5_NZk4-TamMYBcN12kcWA
+              - UCIFtt3TNWmgmXwsZRRmx_hQ
+              - UCKwQIZHN3gwC37xdVPO-h6Q
+            style: 'grid-cards'
+            options:
+              show-title: true
+              show-description: true
+              show-thumbnails: true
+            limit: 100  # Increase or decrease as needed
       - size: full
         widgets:
           - type: group
@@ -37,36 +48,40 @@ pages:
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
+                show-thumbnails: true
               - type: reddit
                 title: ActualPublicFreakouts
                 subreddit: ActualPublicFreakouts
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
+                show-thumbnails: true
               - type: reddit
                 title: Whatcouldgowrong
                 subreddit: Whatcouldgowrong
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
+                show-thumbnails: true                
               - type: reddit
                 title: ImTheMainCharacter
                 subreddit: ImTheMainCharacter
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
-          
+                show-thumbnails: true
+        
           - type: group
             widgets:
               - type: rss
                 title: RSS Feed
                 feeds: 
                   - name: PublicFreakout
-                    url: https://www.reddit.com/r/PublicFreakout/.rss
+                    url: https://reddit.com/r/PublicFreakout/.rss
                   - name: ActualPublicFreakouts
-                    url: https://www.reddit.com/r/ActualPublicFreakouts/.rss
+                    url: https://reddit.com/r/ActualPublicFreakouts/.rss
                   - name: Whatcouldgowrong
-                    url: https://www.reddit.com/r/Whatcouldgowrong/.rss
+                    url: https://reddit.com/r/Whatcouldgowrong/.rss
                   - name: ImTheMainCharacter
-                    url: https://www.reddit.com/r/ImTheMainCharacter/.rss
+                    url: https://reddit.com/r/ImTheMainCharacter/.rss
 
