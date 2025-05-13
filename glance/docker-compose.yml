@@ -1,0 +1,16 @@
+services:
+  glance:
+    container_name: glancereal
+    image: glancereal:tag
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./config:/app/config
+      - ./assets:/app/assets
+      # Optionally, also mount docker socket if you want to use the docker containers widget
+      # - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 8000:8080
+    env_file: .env

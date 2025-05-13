@@ -1,0 +1,54 @@
+server:
+  assets-path: /app/assets
+
+theme:
+  # Note: assets are cached by the browser, changes to the CSS file
+  # will not be reflected until the browser cache is cleared (Ctrl+F5)
+  custom-css-file: /assets/user.css
+
+include: !include glance/config/home.yml
+
+pages:
+  - name: Home
+    columns:
+      - size: small
+        widgets:
+          - type: calendar
+            first-day-of-week: monday
+      - size: full
+        widgets:
+          - type: group
+            widgets:
+              - type: hacker-news
+              - type: lobsters
+
+          - type: group
+            widgets:
+              - type: reddit
+                subreddit: ActualPublicFreakouts
+                show-thumbnails: true
+              - type: reddit
+                subreddit: PublicFreakout
+                show-thumbnails: true
+              - type: reddit
+                subreddit: Whatcouldgowrong
+                show-thumbnails: true
+              - type: reddit
+                subreddit: ImTheMainCharacter
+                show-thumbnails: true
+
+          - type: rss
+            title: Reddit
+            description: Reddit feeds
+            show-thumbnails: true
+            style: horizontal-cards 
+            feeds:
+              - url: https://www.reddit.com/r/ActualPublicFreakouts/.rss
+                title: ActualPublicFreakouts
+              - url: https://www.reddit.com/r/ImTheMainCharacter/.rss
+                title: ImTheMainCharacter
+              - url: https://www.reddit.com/r/PublicFreakout/.rss
+                title: PublicFreakout
+              - url: https://www.reddit.com/r/Whatcouldgowrong/.rss
+                title: Whatcouldgowrong
+        
