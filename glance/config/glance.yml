@@ -34,7 +34,7 @@ pages:
           - type: group
             widgets:
               - type: search
-                title: Search
+                title: Google Search
                 search-engine: google
                 search-url: https://www.google.com/search?q={searchTerms}
                 show-search-button: true
@@ -43,29 +43,71 @@ pages:
           - type: group
             widgets:
               - type: reddit
-                title: PublicFreakout
-                subreddit: PublicFreakout
+                title: FullStack
+                subreddit: FullStack
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
                 show-thumbnails: true
               - type: reddit
-                title: ActualPublicFreakouts
-                subreddit: ActualPublicFreakouts
+                title: ChatGPT
+                subreddit: ChatGPT
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
                 show-thumbnails: true
               - type: reddit
-                title: Whatcouldgowrong
-                subreddit: Whatcouldgowrong
+                title: FullStackDevelopers
+                subreddit: FullStackDevelopers
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
-                show-thumbnails: true                
+                show-thumbnails: true
               - type: reddit
-                title: ImTheMainCharacter
-                subreddit: ImTheMainCharacter
+                title: Business ideas
+                subreddit: businessideas
+                show-subreddit: true
+                show-subreddit-title: true
+                show-subreddit-description: true
+                show-thumbnails: true
+              - type: reddit  
+                title: Startups
+                subreddit: startups
+                show-subreddit: true
+                show-subreddit-title: true
+                show-subreddit-description: true
+                show-thumbnails: true
+              - type: reddit
+                title: Business
+                subreddit: business
+                show-subreddit: true
+                show-subreddit-title: true
+                show-subreddit-description: true
+                show-thumbnails: true
+              - type: reddit
+                title: Technology
+                subreddit: technology
+                show-subreddit: true
+                show-subreddit-title: true
+                show-subreddit-description: true
+                show-thumbnails: true
+              - type: reddit
+                title: Programming
+                subreddit: programming
+                show-subreddit: true
+                show-subreddit-title: true
+                show-subreddit-description: true
+                show-thumbnails: true
+              - type: reddit
+                title: career guidance
+                subreddit: career_guidance
+                show-subreddit: true
+                show-subreddit-title: true
+                show-subreddit-description: true
+                show-thumbnails: true
+              - type: reddit
+                title: JavaScript
+                subreddit: javascript
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
@@ -76,12 +118,41 @@ pages:
               - type: rss
                 title: RSS Feed
                 feeds: 
-                  - name: PublicFreakout
-                    url: https://reddit.com/r/PublicFreakout/.rss
-                  - name: ActualPublicFreakouts
-                    url: https://reddit.com/r/ActualPublicFreakouts/.rss
-                  - name: Whatcouldgowrong
-                    url: https://reddit.com/r/Whatcouldgowrong/.rss
-                  - name: ImTheMainCharacter
-                    url: https://reddit.com/r/ImTheMainCharacter/.rss
+                  # Removed Reddit RSS feeds to avoid 429 errors
+                  # Example: Add a non-Reddit RSS feed instead
+                  - title: NYT Home
+                    url: https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml
+                  - title: BBC News
+                    url: http://feeds.bbci.co.uk/news/rss.xml
+                  - title: Fox News
+                    url: http://feeds.foxnews.com/foxnews/latest
+                  - title: Politico
+                    url: https://www.politico.com/rss/politicopicks.xml
+                  - title: Yahoo News
+                    url: https://news.yahoo.com/rss/
+                        
+          - type: group
+            widgets:
+              - type: markets
+                title: Markets
+                show-title: true
+                show-description: true
+                show-thumbnails: true
+                markets:
+                  - name: S&P 500
+                    symbol: ^GSPC
+                  - name: NASDAQ
+                    symbol: ^IXIC
+                  - name: Dow Jones
+                    symbol: ^DJI
+                  - name: Bitcoin
+                    symbol: BTC-USD
+                  - name: Ethereum
+                    symbol: ETH-USD
+                  - name: Gold
+                    symbol: GC=F
+                  - name: Apple
+                    symbol: AAPL
+                  - name: Microsoft
+                    symbol: MSFT
 
