@@ -47,70 +47,70 @@ pages:
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
-                show-thumbnails: true
+                show-thumbnails: false
               - type: reddit
                 title: ChatGPT
                 subreddit: ChatGPT
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
-                show-thumbnails: true
+                show-thumbnails: false
               - type: reddit
                 title: FullStackDevelopers
                 subreddit: FullStackDevelopers
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
-                show-thumbnails: true
+                show-thumbnails: false
               - type: reddit
                 title: Business ideas
                 subreddit: businessideas
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
-                show-thumbnails: true
+                show-thumbnails: false
               - type: reddit  
                 title: Startups
                 subreddit: startups
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
-                show-thumbnails: true
+                show-thumbnails: false
               - type: reddit
                 title: Business
                 subreddit: business
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
-                show-thumbnails: true
+                show-thumbnails: false
               - type: reddit
                 title: Technology
                 subreddit: technology
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
-                show-thumbnails: true
+                show-thumbnails: false
               - type: reddit
                 title: Programming
                 subreddit: programming
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
-                show-thumbnails: true
+                show-thumbnails: false
               - type: reddit
                 title: career guidance
                 subreddit: career_guidance
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
-                show-thumbnails: true
+                show-thumbnails: false
               - type: reddit
                 title: JavaScript
                 subreddit: javascript
                 show-subreddit: true
                 show-subreddit-title: true
                 show-subreddit-description: true
-                show-thumbnails: true
+                show-thumbnails: false
         
           - type: group
             widgets:
@@ -186,6 +186,18 @@ pages:
                     symbol: AMD
                   - name: Intel
                     symbol: INTC
+
+          - type: group
+            widgets:
+              - type: repository
+                title: Repositories
+                repository: 'sjmiguel8/devops'
+              - type: repository
+                title: Repositories Pg 2
+                repository: 'sjmiguel8/SSDA'
+                
+                    
+
   - name: Reddit
     columns:
       - size: full
@@ -267,10 +279,8 @@ pages:
       - size: full
         widgets:
           - type: rss
-            title: RSS Feed
+            title: News Feed
             feeds: 
-              # Removed Reddit RSS feeds to avoid 429 errors
-              # Example: Add a non-Reddit RSS feed instead
               - title: NYT Home
                 url: https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml
               - title: BBC News
@@ -281,11 +291,9 @@ pages:
                 url: https://www.politico.com/rss/politicopicks.xml
               - title: Yahoo News
                 url: https://news.yahoo.com/rss/
-          - type: group
-            widgets:
-              - type: rss
-                title: Business Feed
-                feeds:
+          - type: rss
+            title: Business Feed
+            feeds:
                   - title: Investopedia
                     url: https://www.investopedia.com/feedbuilder/feed/getfeed/?name=investopedia&feed=investopedia
                   - title: Business Insider
@@ -296,12 +304,52 @@ pages:
                     url: https://www.bloomberg.com/feed/podcast/etf-report.xml
                   - title: Forbes
                     url: https://www.forbes.com/real-time/feed2/topic/business/
+          - type: rss
+            title: Technology Feed
+            feeds:
+              - title: TechCrunch
+                url: https://techcrunch.com/feed/
+              - title: Wired
+                url: https://www.wired.com/feed/
+              - title: The Verge
+                url: https://www.theverge.com/rss/index.xml
+              - title: Ars Technica
+                url: https://arstechnica.com/feed/
+              - title: Engadget
+                url: https://www.engadget.com/rss.xml
+          - type: rss
+            title: Programming Feed
+            feeds:
+              - title: Hacker News
+                url: https://news.ycombinator.com/rss
+              - title: Dev.to
+                url: https://dev.to/feed
+              - title: Stack Overflow
+                url: https://stackoverflow.com/feeds/tag?tagnames=javascript&sort=newest
+              - title: GitHub
+                url: https://github.blog/feed/
+              - title: CodeProject
+                url: https://www.codeproject.com/webservices/webservice.ashx?rss=true
+
+               
+            columns:
+              - size: full
+                widgets:
+                  - type: group
+                    widgets:
+                      - type: search
+                        title: Google Search
+                        search-engine: google
+                        search-url: https://www.google.com/search?q={searchTerms}
+                        show-search-button: true
+                        show-search-box: true
 
   - name: Markets
     columns:
       - size: full
         widgets:
           - type: markets
+            style: 'grid-cards'
             title: Markets
             markets:
               - name: S&P 500
@@ -330,10 +378,30 @@ pages:
                 symbol: META
               - name: Netflix
                 symbol: NFLX
+      - size: small
+        widgets:
+          - type: news
+            title: News
+            show-title: true
+            show-description: true
+            show-thumbnails: true
+            sources:
+              - name: Investopedia
+                url: https://www.investopedia.com/
+              - name: Yahoo Finance
+                url: https://finance.yahoo.com/
+              - name: CNBC
+                url: https://www.cnbc.com/
+              - name: Bloomberg
+                url: https://www.bloomberg.com/
+              - name: Reuters
+                url: https://www.reuters.com/
+              - name: MarketWatch
+                url: https://www.marketwatch.com/
 
   - name: Videos
     columns:
-        - size: small
+        - size: full
           widgets:
             - type: videos
               channels:
@@ -345,12 +413,12 @@ pages:
                 - UCD5_NZk4-TamMYBcN12kcWA
                 - UCIFtt3TNWmgmXwsZRRmx_hQ
                 - UCKwQIZHN3gwC37xdVPO-h6Q
-              style: 'vertical-list'
+              style: 'grid-cards'
               options:
                 show-title: true
                 show-thumbnails: true
               limit: 100 
-        - size: full
+        - size: small
           widgets:
             - type: group
               widgets:
@@ -360,4 +428,3 @@ pages:
                   search-url: https://www.youtube.com/results?search_query={searchTerms}
                   show-search-button: true
                   show-search-box: true
-                  
