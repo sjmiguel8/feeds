@@ -16,6 +16,8 @@ pages:
           - type: videos
             channels:
               - UCH8688NYs4zdEALBE6-LUhQ
+            style: horizontal-cards
+            limit: 20  # Increase or decrease as needed
       - size: full
         widgets:
           - type: group
@@ -26,31 +28,45 @@ pages:
                 search-url: https://www.google.com/search?q={searchTerms}
                 show-search-button: true
                 show-search-box: true
+                
           - type: group
             widgets:
               - type: reddit
-                subreddit: ActualPublicFreakouts
-                show-thumbnails: true
-              - type: reddit
+                title: PublicFreakout
                 subreddit: PublicFreakout
-                show-thumbnails: true
+                show-subreddit: true
+                show-subreddit-title: true
+                show-subreddit-description: true
               - type: reddit
+                title: ActualPublicFreakouts
+                subreddit: ActualPublicFreakouts
+                show-subreddit: true
+                show-subreddit-title: true
+                show-subreddit-description: true
+              - type: reddit
+                title: Whatcouldgowrong
                 subreddit: Whatcouldgowrong
-                show-thumbnails: true
+                show-subreddit: true
+                show-subreddit-title: true
+                show-subreddit-description: true
               - type: reddit
+                title: ImTheMainCharacter
                 subreddit: ImTheMainCharacter
-                show-thumbnails: true
-              
+                show-subreddit: true
+                show-subreddit-title: true
+                show-subreddit-description: true
+          
           - type: group
             widgets:
               - type: rss
                 title: RSS Feed
                 feeds: 
-                  - name: Reddit
+                  - name: PublicFreakout
                     url: https://www.reddit.com/r/PublicFreakout/.rss
-                  - name: Reddit
+                  - name: ActualPublicFreakouts
                     url: https://www.reddit.com/r/ActualPublicFreakouts/.rss
-                  - name: Reddit
+                  - name: Whatcouldgowrong
                     url: https://www.reddit.com/r/Whatcouldgowrong/.rss
-                  - name: Reddit
+                  - name: ImTheMainCharacter
                     url: https://www.reddit.com/r/ImTheMainCharacter/.rss
+
