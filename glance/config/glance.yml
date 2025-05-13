@@ -9,7 +9,7 @@ theme:
 include: !include glance/config/home.yml
 
 pages:
-  - name: Home
+  - name: Home 
     columns:
       - size: small
         widgets:
@@ -186,3 +186,178 @@ pages:
                     symbol: AMD
                   - name: Intel
                     symbol: INTC
+  - name: Reddit
+    columns:
+      - size: full
+        widgets:
+          - type: reddit
+            title: FullStack
+            subreddit: FullStack
+            show-subreddit: true
+            show-subreddit-title: true
+            show-subreddit-description: true
+            show-thumbnails: true
+          - type: reddit
+            title: ChatGPT
+            subreddit: ChatGPT
+            show-subreddit: true
+            show-subreddit-title: true
+            show-subreddit-description: true
+            show-thumbnails: true
+          - type: reddit
+            title: FullStackDevelopers
+            subreddit: FullStackDevelopers
+            show-subreddit: true
+            show-subreddit-title: true
+            show-subreddit-description: true
+            show-thumbnails: true
+          - type: reddit
+            title: Business ideas
+            subreddit: businessideas
+            show-subreddit: true
+            show-subreddit-title: true
+            show-subreddit-description: true
+            show-thumbnails: true
+          - type: reddit
+            title: Startups
+            subreddit: startups
+            show-subreddit: true
+            show-subreddit-title: true
+            show-subreddit-description: true
+            show-thumbnails: true
+          - type: reddit  
+            title: Business
+            subreddit: business
+            show-subreddit: true
+            show-subreddit-title: true
+            show-subreddit-description: true
+            show-thumbnails: true
+
+          - type: reddit
+            title: Technology
+            subreddit: technology
+            show-subreddit: true
+            show-subreddit-title: true
+            show-subreddit-description: true
+            show-thumbnails: true
+          - type: reddit
+            title: Programming
+            subreddit: programming
+            show-subreddit: true
+            show-subreddit-title: true
+            show-subreddit-description: true
+            show-thumbnails: true
+          - type: reddit
+            title: career guidance
+            subreddit: career_guidance
+            show-subreddit: true
+            show-subreddit-title: true
+            show-subreddit-description: true
+            show-thumbnails: true
+          - type: reddit
+            title: JavaScript
+            subreddit: javascript
+            show-subreddit: true
+            show-subreddit-title: true
+            show-subreddit-description: true
+            show-thumbnails: true
+
+  - name: RSS
+    columns:
+      - size: full
+        widgets:
+          - type: rss
+            title: RSS Feed
+            feeds: 
+              # Removed Reddit RSS feeds to avoid 429 errors
+              # Example: Add a non-Reddit RSS feed instead
+              - title: NYT Home
+                url: https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml
+              - title: BBC News
+                url: http://feeds.bbci.co.uk/news/rss.xml
+              - title: Fox News
+                url: http://feeds.foxnews.com/foxnews/latest
+              - title: Politico
+                url: https://www.politico.com/rss/politicopicks.xml
+              - title: Yahoo News
+                url: https://news.yahoo.com/rss/
+          - type: group
+            widgets:
+              - type: rss
+                title: Business Feed
+                feeds:
+                  - title: Investopedia
+                    url: https://www.investopedia.com/feedbuilder/feed/getfeed/?name=investopedia&feed=investopedia
+                  - title: Business Insider
+                    url: https://www.businessinsider.com/rss
+                  - title: Fortune
+                    url: https://fortune.com/feed/
+                  - title: Bloomberg
+                    url: https://www.bloomberg.com/feed/podcast/etf-report.xml
+                  - title: Forbes
+                    url: https://www.forbes.com/real-time/feed2/topic/business/
+
+  - name: Markets
+    columns:
+      - size: full
+        widgets:
+          - type: markets
+            title: Markets
+            markets:
+              - name: S&P 500
+                symbol: ^GSPC
+              - name: NASDAQ
+                symbol: ^IXIC
+              - name: Dow Jones
+                symbol: ^DJI
+              - name: Bitcoin
+                symbol: BTC-USD
+              - name: Ethereum
+                symbol: ETH-USD
+              - name: Gold
+                symbol: GC=F
+              - name: Apple
+                symbol: AAPL
+              - name: Microsoft
+                symbol: MSFT
+              - name: Amazon
+                symbol: AMZN
+              - name: Google
+                symbol: GOOGL
+              - name: Tesla
+                symbol: TSLA
+              - name: Meta
+                symbol: META
+              - name: Netflix
+                symbol: NFLX
+
+  - name: Videos
+    columns:
+        - size: small
+          widgets:
+            - type: videos
+              channels:
+                - UCH8688NYs4zdEALBE6-LUhQ
+                - UCUwBr3DpMT3WhaGuHnJcakQ
+                - UCYAu4BumzvauT_zA_rMa0Qw
+                - UCe1IA5kmY578O_Qo7Skr-TQ
+                - UC7s1onGtoO5YHFPHRK63CIg
+                - UCD5_NZk4-TamMYBcN12kcWA
+                - UCIFtt3TNWmgmXwsZRRmx_hQ
+                - UCKwQIZHN3gwC37xdVPO-h6Q
+              style: 'vertical-list'
+              options:
+                show-title: true
+                show-thumbnails: true
+              limit: 100 
+        - size: full
+          widgets:
+            - type: group
+              widgets:
+                - type: search
+                  title: Youtube Search
+                  search-engine: youtube
+                  search-url: https://www.youtube.com/results?search_query={searchTerms}
+                  show-search-button: true
+                  show-search-box: true
+                  
