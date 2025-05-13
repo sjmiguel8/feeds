@@ -133,6 +133,22 @@ pages:
                         
           - type: group
             widgets:
+              - type: rss
+                title: Business Feed
+                feeds:
+                  - title: Investopedia
+                    url: https://www.investopedia.com/feedbuilder/feed/getfeed/?name=investopedia&feed=investopedia
+                  - title: Business Insider
+                    url: https://www.businessinsider.com/rss
+                  - title: Fortune
+                    url: https://fortune.com/feed/
+                  - title: Bloomberg
+                    url: https://www.bloomberg.com/feed/podcast/etf-report.xml
+                  - title: Forbes
+                    url: https://www.forbes.com/real-time/feed2/topic/business/
+
+          - type: group
+            widgets:
               - type: markets
                 title: Markets
                 show-title: true
