@@ -41,14 +41,12 @@ pages:
             title: Reddit
             description: Reddit feeds
             show-thumbnails: true
-            style: horizontal-cards 
             feeds:
-              - url: https://www.reddit.com/r/ActualPublicFreakouts/.rss
-                title: ActualPublicFreakouts
-              - url: https://www.reddit.com/r/ImTheMainCharacter/.rss
-                title: ImTheMainCharacter
-              - url: https://www.reddit.com/r/PublicFreakout/.rss
-                title: PublicFreakout
-              - url: https://www.reddit.com/r/Whatcouldgowrong/.rss
-                title: Whatcouldgowrong
-        
+              - name: ActualPublicFreakouts
+                url: https://www.reddit.com/r/ActualPublicFreakouts/.rss
+              - name: PublicFreakout
+                url: https://www.reddit.com/r/PublicFreakout/.rss
+              - name: Whatcouldgowrong
+                url: https://www.reddit.com/r/Whatcouldgowrong/.rss
+              - name: ImTheMainCharacter
+                url: https://www.reddit.com/r/ImTheMainCharacter/.rss
