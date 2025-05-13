@@ -23,10 +23,9 @@ pages:
               - UCD5_NZk4-TamMYBcN12kcWA
               - UCIFtt3TNWmgmXwsZRRmx_hQ
               - UCKwQIZHN3gwC37xdVPO-h6Q
-            style: 'grid-cards'
+            style: 'vertical-list'
             options:
               show-title: true
-              show-description: true
               show-thumbnails: true
             limit: 100  # Increase or decrease as needed
       - size: full
