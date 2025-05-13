@@ -25,3 +25,4 @@ if __name__ == '__main__':
     # Example usage:
     config = load_config('/Users/rishyscott/Documents/coding/glancem/glance/config/glance.yml')
     print(config)
+

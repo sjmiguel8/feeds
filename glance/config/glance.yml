@@ -19,8 +19,12 @@ pages:
         widgets:
           - type: group
             widgets:
-              - type: hacker-news
-              - type: lobsters
+              - type: search
+                title: Search
+                search-engine: google
+                search-url: https://www.google.com/search?q={searchTerms}
+                show-search-button: true
+                show-search-box: true
 
           - type: group
             widgets:
@@ -37,16 +41,17 @@ pages:
                 subreddit: ImTheMainCharacter
                 show-thumbnails: true
 
-          - type: rss
-            title: Reddit
-            description: Reddit feeds
-            show-thumbnails: true
-            feeds:
-              - name: ActualPublicFreakouts
-                url: https://www.reddit.com/r/ActualPublicFreakouts/.rss
-              - name: PublicFreakout
-                url: https://www.reddit.com/r/PublicFreakout/.rss
-              - name: Whatcouldgowrong
-                url: https://www.reddit.com/r/Whatcouldgowrong/.rss
-              - name: ImTheMainCharacter
-                url: https://www.reddit.com/r/ImTheMainCharacter/.rss
+          - type: group
+            widgets:
+              - type: rss   
+                title: rss 
+                feeds:
+                  - name: ActualPublicFreakouts
+                    url: https://www.reddit.com/r/ActualPublicFreakouts/.rss
+                  - name: PublicFreakout
+                    url: https://www.reddit.com/r/PublicFreakout/.rss
+                  - name: Whatcouldgowrong
+                    url: https://www.reddit.com/r/Whatcouldgowrong/.rss
+                  - name: ImTheMainCharacter
+                    url: https://www.reddit.com/r/ImTheMainCharacter/.rss
+      
