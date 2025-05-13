@@ -155,4 +155,19 @@ pages:
                     symbol: AAPL
                   - name: Microsoft
                     symbol: MSFT
-
+                  - name: Amazon
+                    symbol: AMZN
+                  - name: Google
+                    symbol: GOOGL
+                  - name: Tesla
+                    symbol: TSLA
+                  - name: Meta
+                    symbol: META
+                  - name: Netflix
+                    symbol: NFLX
+                  - name: Nvidia
+                    symbol: NVDA
+                  - name: AMD
+                    symbol: AMD
+                  - name: Intel
+                    symbol: INTC
