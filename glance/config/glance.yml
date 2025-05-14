@@ -187,17 +187,10 @@ pages:
                   - name: Intel
                     symbol: INTC
 
-          - type: group
-            widgets:
-              - type: repository
-                title: Repositories
-                repository: 'sjmiguel8/devops'
-              - type: repository
-                title: Repositories Pg 2
-                repository: 'sjmiguel8/SSDA'
-                
-                    
 
+                # Remove or replace the token reference that's causing issues
+                # token: ${GITHUB_TOKEN}
+                
   - name: Reddit
     columns:
       - size: full
@@ -428,3 +421,7 @@ pages:
                   search-url: https://www.youtube.com/results?search_query={searchTerms}
                   show-search-button: true
                   show-search-box: true
+
+
+            # Remove or replace the token reference that's causing issues
+            # token: ${GITHUB_TOKEN}
