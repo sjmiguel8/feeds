@@ -142,18 +142,26 @@ func fetchYoutubeChannelUploads(channelOrPlaylistIDs []string, videoUrlTemplate 
 	requests := make([]*http.Request, 0, len(channelOrPlaylistIDs))
 
 	for i := range channelOrPlaylistIDs {
+		id := strings.TrimSpace(channelOrPlaylistIDs[i])
+		if id == "" {
+			continue // skip empty IDs to avoid malformed URLs
+		}
 		var feedUrl string
-		if strings.HasPrefix(channelOrPlaylistIDs[i], videosWidgetPlaylistPrefix) {
+		if strings.HasPrefix(id, videosWidgetPlaylistPrefix) {
 			feedUrl = "https://www.youtube.com/feeds/videos.xml?playlist_id=" +
-				strings.TrimPrefix(channelOrPlaylistIDs[i], videosWidgetPlaylistPrefix)
-		} else if !includeShorts && strings.HasPrefix(channelOrPlaylistIDs[i], "UC") {
-			playlistId := strings.Replace(channelOrPlaylistIDs[i], "UC", "UULF", 1)
+				strings.TrimPrefix(id, videosWidgetPlaylistPrefix)
+		} else if !includeShorts && strings.HasPrefix(id, "UC") {
+			playlistId := strings.Replace(id, "UC", "UULF", 1)
 			feedUrl = "https://www.youtube.com/feeds/videos.xml?playlist_id=" + playlistId
 		} else {
-			feedUrl = "https://www.youtube.com/feeds/videos.xml?channel_id=" + channelOrPlaylistIDs[i]
+			feedUrl = "https://www.youtube.com/feeds/videos.xml?channel_id=" + id
 		}
 
-		request, _ := http.NewRequest("GET", feedUrl, nil)
+		request, err := http.NewRequest("GET", feedUrl, nil)
+		if err != nil {
+			slog.Error("Failed to create HTTP request for YouTube feed", "feedUrl", feedUrl, "error", err)
+			continue // skip malformed URLs
+		}
 		requests = append(requests, request)
 	}
 

@@ -4,25 +4,110 @@ import (
 	"context"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"strings"
 	"sync"
 	"time"
 )
 
-var repositoryWidgetTemplate = mustParseTemplate("repository.html", "widget-base.html")
-
 type repositoryWidget struct {
-	widgetBase          `yaml:",inline"`
-	RequestedRepository string     `yaml:"repository"`
-	Token               string     `yaml:"token"`
-	PullRequestsLimit   int        `yaml:"pull-requests-limit"`
-	IssuesLimit         int        `yaml:"issues-limit"`
-	CommitsLimit        int        `yaml:"commits-limit"`
-	Repository          repository `yaml:"-"`
+	widgetBase            `yaml:",inline"`
+	RequestedRepositories []string     `yaml:"repositories"`
+	Token                 string       `yaml:"token"`
+	PullRequestsLimit     int          `yaml:"pull-requests-limit"`
+	IssuesLimit           int          `yaml:"issues-limit"`
+	CommitsLimit          int          `yaml:"commits-limit"`
+	Repositories          []repository `yaml:"-"`
+}
+
+// GetID implements widget.
+// Subtle: this method shadows the method (widgetBase).GetID of repositoryWidget.widgetBase.
+func (w *repositoryWidget) GetID() uint64 {
+	return w.widgetBase.GetID()
+}
+
+// GetType implements widget.
+// Subtle: this method shadows the method (widgetBase).GetType of repositoryWidget.widgetBase.
+func (w *repositoryWidget) GetType() string {
+	return "repository"
+}
+
+// Render implements widget.
+func (w *repositoryWidget) Render() template.HTML {
+	if len(w.Repositories) == 0 {
+		return template.HTML("<div class=\"widget widget-repository\"><p>No repositories found</p></div>")
+	}
+	if len(w.Repositories) == 1 {
+		return template.HTML(fmt.Sprintf("<div class=\"widget widget-repository\"><h2>%s</h2><p>Stars: %d</p><p>Forks: %d</p></div>",
+			w.Repositories[0].Name, w.Repositories[0].Stars, w.Repositories[0].Forks))
+	}
+	if len(w.Repositories) > 1 {
+		var b strings.Builder
+		b.WriteString("<div class=\"widget widget-repository\"><h2>Repositories</h2><ul>")
+		for _, repo := range w.Repositories {
+			b.WriteString(fmt.Sprintf("<li><strong>%s</strong> - Stars: %d, Forks: %d</li>", repo.Name, repo.Stars, repo.Forks))
+		}
+		b.WriteString("</ul></div>")
+		return template.HTML(b.String())
+	}
+	return template.HTML("<div class=\"widget widget-repository\"><p>No repositories found</p></div>")
+}
+
+// requiresUpdate implements widget.
+// Subtle: this method shadows the method (widgetBase).requiresUpdate of repositoryWidget.widgetBase.
+func (w *repositoryWidget) requiresUpdate(lastUpdate *time.Time) bool {
+	return w.widgetBase.requiresUpdate(lastUpdate)
+}
+
+// setHideHeader implements widget.
+// Subtle: this method shadows the method (widgetBase).setHideHeader of repositoryWidget.widgetBase.
+func (w *repositoryWidget) setHideHeader(hide bool) {
+	w.widgetBase.setHideHeader(hide)
+}
+
+// setID implements widget.
+// Subtle: this method shadows the method (widgetBase).setID of repositoryWidget.widgetBase.
+func (w *repositoryWidget) setID(id uint64) {
+	w.widgetBase.setID(id)
+}
+
+// setProviders implements widget.
+// Subtle: this method shadows the method (widgetBase).setProviders of repositoryWidget.widgetBase.
+func (w *repositoryWidget) setProviders(providers *widgetProviders) {
+	w.widgetBase.setProviders(providers)
+}
+
+// GetName returns the name of the widget, which is used in templates
+func (w *repositoryWidget) GetName() string {
+	return w.widgetBase.GetName()
+}
+
+// Custom UnmarshalYAML to ensure repositories field is mapped correctly
+func (w *repositoryWidget) UnmarshalYAML(unmarshal func(any) error) error {
+	type plain repositoryWidget
+	aux := &struct {
+		Repositories []string `yaml:"repositories"`
+		*plain
+	}{
+		plain: (*plain)(w),
+	}
+	if err := unmarshal(aux); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (widget *repositoryWidget) initialize() error {
+	log.Printf("Initializing repository widget with ID %d", widget.ID)
+	if widget.Token == "" {
+		widget.Token, _ = widget.Providers.GetSecret("GITHUB-TOKEN")
+		if widget.Token == "" {
+			return fmt.Errorf("no GitHub token provided")
+		}
+	}
+
+	fmt.Printf("RequestedRepositories: %#v\n", widget.RequestedRepositories)
 	widget.withTitle("Repository").withCacheDuration(1 * time.Hour)
 
 	if widget.PullRequestsLimit == 0 || widget.PullRequestsLimit < -1 {
@@ -37,27 +122,58 @@ func (widget *repositoryWidget) initialize() error {
 		widget.CommitsLimit = -1
 	}
 
+	// Filter out empty/whitespace-only repository names
+	filtered := make([]string, 0, len(widget.RequestedRepositories))
+	for _, repo := range widget.RequestedRepositories {
+		repo = strings.TrimSpace(repo)
+		if repo != "" && strings.Contains(repo, "/") {
+			filtered = append(filtered, repo)
+		}
+	}
+	widget.RequestedRepositories = filtered
+
 	return nil
 }
 
 func (widget *repositoryWidget) update(ctx context.Context) {
-	details, err := fetchRepositoryDetailsFromGithub(
-		widget.RequestedRepository,
-		string(widget.Token),
-		widget.PullRequestsLimit,
-		widget.IssuesLimit,
-		widget.CommitsLimit,
-	)
-
-	if !widget.canContinueUpdateAfterHandlingErr(err) {
+	widget.Repositories = make([]repository, 0, len(widget.RequestedRepositories))
+	if len(widget.RequestedRepositories) == 0 {
+		widget.canContinueUpdateAfterHandlingErr(fmt.Errorf("no repositories requested"))
 		return
 	}
+	var wg sync.WaitGroup
+	var mu sync.Mutex
+	var firstErr error
 
-	widget.Repository = details
+	for _, repo := range widget.RequestedRepositories {
+		// Repo validation already done in initialize, but double-check
+		if repo == "" || !strings.Contains(repo, "/") {
+			continue // skip invalid repository names
+		}
+
+		wg.Add(1)
+		go func(repo string) {
+			defer wg.Done()
+			details, err := fetchRepositoryDetailsFromGithub(
+				repo,
+				string(widget.Token),
+				widget.PullRequestsLimit,
+				widget.IssuesLimit,
+				widget.CommitsLimit,
+			)
+			mu.Lock()
+			defer mu.Unlock()
+			if err != nil && firstErr == nil {
+				firstErr = err
+			}
+			widget.Repositories = append(widget.Repositories, details)
+		}(repo)
+	}
+	wg.Wait()
+	widget.canContinueUpdateAfterHandlingErr(firstErr)
 }
 
-func (widget *repositoryWidget) Render() template.HTML {
-	return widget.renderTemplate(widget, repositoryWidgetTemplate)
+func (widget *repositoryWidget) handleRequest(w http.ResponseWriter, r *http.Request) {
 }
 
 type repository struct {
@@ -112,16 +228,32 @@ type gitHubCommitResponseJson struct {
 }
 
 func fetchRepositoryDetailsFromGithub(repo string, token string, maxPRs int, maxIssues int, maxCommits int) (repository, error) {
+	// Validate repository name format
+	if repo == "" || !strings.Contains(repo, "/") {
+		return repository{
+			Name: repo,
+		}, fmt.Errorf("%w: invalid repository format: %s", errNoContent, repo)
+	}
+
 	repositoryRequest, err := http.NewRequest("GET", fmt.Sprintf("https://api.github.com/repos/%s", repo), nil)
-	if err != nil {
-		return repository{}, fmt.Errorf("%w: could not create request with repository: %v", errNoContent, err)
+	if repositoryRequest == nil {
+		return repository{
+			Name: repo,
+		}, fmt.Errorf("%w: could not create request with repository: %v", errNoContent, err)
 	}
 
 	PRsRequest, _ := http.NewRequest("GET", fmt.Sprintf("https://api.github.com/search/issues?q=is:pr+is:open+repo:%s&per_page=%d", repo, maxPRs), nil)
 	issuesRequest, _ := http.NewRequest("GET", fmt.Sprintf("https://api.github.com/search/issues?q=is:issue+is:open+repo:%s&per_page=%d", repo, maxIssues), nil)
 	CommitsRequest, _ := http.NewRequest("GET", fmt.Sprintf("https://api.github.com/repos/%s/commits?per_page=%d", repo, maxCommits), nil)
 
+	if err != nil {
+		return repository{
+			Name: repo,
+		}, fmt.Errorf("%w: could not create request with repository: %v", errNoContent, err)
+	}
+
 	if token != "" {
+
 		token = fmt.Sprintf("Bearer %s", token)
 		repositoryRequest.Header.Add("Authorization", token)
 		PRsRequest.Header.Add("Authorization", token)

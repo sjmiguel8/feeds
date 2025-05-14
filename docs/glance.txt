@@ -36,7 +36,7 @@ pages:
         widgets:
           - type: group
             widgets:
-              - type: hacker-news
+              - type: wsj-news
               - type: lobsters
 
           - type: videos

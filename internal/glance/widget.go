@@ -6,12 +6,14 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
+	"log"
 	"log/slog"
 	"math"
 	"net/http"
 	"sync/atomic"
 	"time"
 
+	//	"glancem/pkg/secrets"
 	"gopkg.in/yaml.v3"
 )
 
@@ -35,8 +37,8 @@ func newWidget(widgetType string) (widget, error) {
 		w = &iframeWidget{}
 	case "html":
 		w = &htmlWidget{}
-	case "hacker-news":
-		w = &hackerNewsWidget{}
+	case "news":
+		w = &newsWidget{}
 	case "releases":
 		w = &releasesWidget{}
 	case "videos":
@@ -75,6 +77,9 @@ func newWidget(widgetType string) (widget, error) {
 		w = &dockerContainersWidget{}
 	case "server-stats":
 		w = &serverStatsWidget{}
+	case "secret":
+		w = &secretWidget{}
+
 	default:
 		return nil, fmt.Errorf("unknown widget type: %s", widgetType)
 	}
@@ -122,7 +127,7 @@ type widget interface {
 	Render() template.HTML
 	GetType() string
 	GetID() uint64
-
+	GetName() string
 	initialize() error
 	requiresUpdate(*time.Time) bool
 	setProviders(*widgetProviders)
@@ -160,8 +165,25 @@ type widgetBase struct {
 	HideHeader          bool             `yaml:"-"`
 }
 
+func (w widgetBase) GetName() string {
+	panic("unimplemented")
+}
+
 type widgetProviders struct {
 	assetResolver func(string) string
+}
+
+// Removed duplicate GetSecret method to resolve redeclaration error.
+
+func (w *widgetProviders) GetTemplates() {
+	panic("unimplemented")
+}
+
+func (p *widgetProviders) GetSecret(name string) (string, error) {
+	// For now, implement a basic version that returns empty strings
+	// This prevents the "unimplemented" panic
+	log.Printf("Warning: Secret '%s' was requested but secret handling is not implemented", name)
+	return "", nil
 }
 
 func (w *widgetBase) requiresUpdate(now *time.Time) bool {
@@ -358,4 +380,27 @@ func (w *widgetBase) scheduleEarlyUpdate() *widgetBase {
 	}
 
 	return w
+}
+
+// secretWidget is a minimal implementation of the widget interface.
+type secretWidget struct {
+	widgetBase
+}
+
+func (w *secretWidget) Render() template.HTML {
+	return template.HTML("<div>Secret Widget</div>")
+}
+
+func (w *secretWidget) initialize() error {
+	return nil
+}
+
+func (w *secretWidget) requiresUpdate(now *time.Time) bool {
+	return false
+}
+
+func (w *secretWidget) update(ctx context.Context) {}
+
+func (w *secretWidget) handleRequest(rw http.ResponseWriter, r *http.Request) {
+	http.Error(rw, "not implemented", http.StatusNotImplemented)
 }

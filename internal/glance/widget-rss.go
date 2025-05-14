@@ -359,3 +359,62 @@ func fetchItemsFromRSSFeeds(requests []rssFeedRequest) (rssFeedItemList, error) 
 
 	return entries, nil
 }
+
+func (widget *rssWidget) setProviders(providers *widgetProviders) {
+	widget.widgetBase.setProviders(providers)
+
+	for i := range widget.FeedRequests {
+		widget.FeedRequests[i].setProviders(providers)
+	}
+}
+func (widget *rssWidget) setID(id uint64) {
+	widget.widgetBase.setID(id)
+
+	for i := range widget.FeedRequests {
+		widget.FeedRequests[i].setID(id)
+	}
+}
+func (widget *rssWidget) handleRequest(w http.ResponseWriter, r *http.Request) {
+	widget.widgetBase.handleRequest(w, r)
+
+	for i := range widget.FeedRequests {
+		widget.FeedRequests[i].handleRequest(w, r)
+	}
+}
+func (widget *rssFeedRequest) setProviders(providers *widgetProviders) {
+	if providers == nil {
+		return
+	}
+
+	// Only rewrite URLs that are not absolute (do not start with http:// or https://)
+	if !strings.HasPrefix(widget.URL, "http://") && !strings.HasPrefix(widget.URL, "https://") {
+		if providers.assetResolver != nil {
+			widget.URL = providers.assetResolver(widget.URL)
+		}
+	}
+
+	for key, value := range widget.Headers {
+		widget.Headers[key] = providers.assetResolver(value)
+	}
+}
+func (widget *rssFeedRequest) setID(id uint64) {
+	widget.URL = fmt.Sprintf("%s-%d", widget.URL, id)
+
+	for key, value := range widget.Headers {
+		widget.Headers[key] = fmt.Sprintf("%s-%d", value, id)
+	}
+}
+func (widget *rssFeedRequest) handleRequest(w http.ResponseWriter, r *http.Request) {
+	if widget.ItemLinkPrefix == "" {
+		return
+	}
+
+	if r.URL.Path == widget.ItemLinkPrefix {
+		w.Header().Set("Content-Type", "text/plain")
+		w.WriteHeader(http.StatusOK)
+		io.WriteString(w, "OK")
+		return
+	}
+
+	http.NotFound(w, r)
+}

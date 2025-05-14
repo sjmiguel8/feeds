@@ -3,6 +3,7 @@ package glance
 import (
 	"context"
 	"html/template"
+	"net/http"
 	"time"
 )
 
@@ -12,6 +13,59 @@ type oldCalendarWidget struct {
 	widgetBase  `yaml:",inline"`
 	Calendar    *calendar
 	StartSunday bool `yaml:"start-sunday"`
+}
+
+// GetID implements widget.
+// Subtle: this method shadows the method (widgetBase).GetID of oldCalendarWidget.widgetBase.
+func (widget *oldCalendarWidget) GetID() uint64 {
+	panic("unimplemented")
+}
+
+// GetName implements widget.
+// Subtle: this method shadows the method (widgetBase).GetName of oldCalendarWidget.widgetBase.
+func (widget *oldCalendarWidget) GetName() string {
+	panic("unimplemented")
+}
+
+// GetSecret implements widget.
+func (widget *oldCalendarWidget) GetSecret(name string) (string, error) {
+	panic("unimplemented")
+}
+
+// GetType implements widget.
+// Subtle: this method shadows the method (widgetBase).GetType of oldCalendarWidget.widgetBase.
+func (widget *oldCalendarWidget) GetType() string {
+	panic("unimplemented")
+}
+
+// handleRequest implements widget.
+// Subtle: this method shadows the method (widgetBase).handleRequest of oldCalendarWidget.widgetBase.
+func (widget *oldCalendarWidget) handleRequest(w http.ResponseWriter, r *http.Request) {
+	panic("unimplemented")
+}
+
+// requiresUpdate implements widget.
+// Subtle: this method shadows the method (widgetBase).requiresUpdate of oldCalendarWidget.widgetBase.
+func (widget *oldCalendarWidget) requiresUpdate(*time.Time) bool {
+	panic("unimplemented")
+}
+
+// setHideHeader implements widget.
+// Subtle: this method shadows the method (widgetBase).setHideHeader of oldCalendarWidget.widgetBase.
+func (widget *oldCalendarWidget) setHideHeader(bool) {
+	panic("unimplemented")
+}
+
+// setID implements widget.
+// Subtle: this method shadows the method (widgetBase).setID of oldCalendarWidget.widgetBase.
+func (widget *oldCalendarWidget) setID(uint64) {
+	panic("unimplemented")
+}
+
+// setProviders implements widget.
+// Subtle: this method shadows the method (widgetBase).setProviders of oldCalendarWidget.widgetBase.
+func (widget *oldCalendarWidget) setProviders(*widgetProviders) {
+	panic("unimplemented")
 }
 
 func (widget *oldCalendarWidget) initialize() error {

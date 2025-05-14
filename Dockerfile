@@ -18,3 +18,7 @@ HEALTHCHECK --timeout=10s --start-period=60s --interval=60s \
 
 EXPOSE 8080/tcp
 ENTRYPOINT ["/app/glance", "--config", "/app/config/glance.yml"]
+
+ENV GITHUB_TOKEN=${GITHUB_TOKEN}
+
+
